@@ -18,28 +18,24 @@ export class GildedRose {
   }
 
   updateQualityForItem(item: Item) {
+    if (item.name == "Sulfuras, Hand of Ragnaros") {
+      return item;
+    }
+
     let changeInQuality = 0;
     let changeInSellIn = -1;
 
     if (item.name == "Aged Brie") {
-      if (item.quality < 50) {
-        changeInQuality += 1;
-      }
+      changeInQuality += 1;
     }
 
     if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-      if (item.quality < 50) {
+      changeInQuality += 1;
+      if (item.sellIn < 11) {
         changeInQuality += 1;
-        if (item.sellIn < 11) {
-          if (item.quality < 50) {
-            changeInQuality += 1;
-          }
-        }
-        if (item.sellIn < 6) {
-          if (item.quality < 50) {
-            changeInQuality += 1;
-          }
-        }
+      }
+      if (item.sellIn < 6) {
+        changeInQuality += 1;
       }
     } else {
       if (item.quality > 0) {
@@ -49,9 +45,7 @@ export class GildedRose {
 
     if (item.sellIn < 0) {
       if (item.name == "Aged Brie") {
-        if (item.quality < 50) {
-          changeInQuality += 1;
-        }
+        changeInQuality += 1;
       } else {
         if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
           changeInQuality += -item.quality;
@@ -67,13 +61,12 @@ export class GildedRose {
       changeInQuality *= 2;
     }
 
-    if (item.name == "Sulfuras, Hand of Ragnaros") {
-      changeInQuality = 0;
-      changeInSellIn = 0;
-    }
-
     item.quality += changeInQuality;
     item.sellIn += changeInSellIn;
+
+    if (item.quality > 50) {
+      item.quality = 50;
+    }
 
     return item;
   }

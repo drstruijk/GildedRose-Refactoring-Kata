@@ -57,7 +57,14 @@ describe("Gilded Rose", () => {
     expect(items[0].quality).toBeGreaterThanOrEqual(1);
   });
   // - The Quality of an item is never more than 50
-  // - "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
+  it('"Sulfuras", being a legendary item, never has to be sold or decreases in Quality', () => {
+    const gildedRose = new GildedRose([
+      new Item("Sulfuras, Hand of Ragnaros", 20, 80),
+    ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(80);
+    expect(items[0].sellIn).toBe(20);
+  });
   // - "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
   // Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but
   // Quality drops to 0 after the concert
