@@ -22,13 +22,9 @@ export class GildedRose {
     let changeInSellIn = -1;
 
     if (
-      item.name != "Aged Brie" &&
-      item.name != "Backstage passes to a TAFKAL80ETC concert"
+      item.name == "Aged Brie" ||
+      item.name == "Backstage passes to a TAFKAL80ETC concert"
     ) {
-      if (item.quality > 0) {
-        changeInQuality += -1;
-      }
-    } else {
       if (item.quality < 50) {
         changeInQuality += 1;
         if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
@@ -43,6 +39,10 @@ export class GildedRose {
             }
           }
         }
+      }
+    } else {
+      if (item.quality > 0) {
+        changeInQuality += -1;
       }
     }
 
