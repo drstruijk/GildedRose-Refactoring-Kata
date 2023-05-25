@@ -7,10 +7,27 @@ describe("Gilded Rose", () => {
     expect(items[0].name).toBe("foo");
   });
 
+  it("should decrease both values by one at the end of a day", () => {
+    const gildedRose = new GildedRose([new Item("foo", 2, 2)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].sellIn).toBe(1);
+    expect(items[0].quality).toBe(1);
+  });
+
   it("Once the sell by date has passed, Quality degrades twice as fast", () => {
     const itemA = new Item("foo", 5, 10);
     const itemB = new Item("foo", 0, 10);
-    const gildedRose = new GildedRose([itemA, itemB]);
+    const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
+    const items = gildedRose.updateQuality();
+    const qualityDecreaseA = itemA.quality - items[0].quality;
+    const qualityDecreaseB = itemB.quality - items[1].quality;
+    expect(qualityDecreaseB).toBe(2 * qualityDecreaseA);
+  });
+
+  it('"Conjured" items degrade in Quality twice as fast as normal items', () => {
+    const itemA = new Item("foo", 5, 10);
+    const itemB = new Item("Conjured foo", 5, 10);
+    const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
     const items = gildedRose.updateQuality();
     const qualityDecreaseA = itemA.quality - items[0].quality;
     const qualityDecreaseB = itemB.quality - items[1].quality;
