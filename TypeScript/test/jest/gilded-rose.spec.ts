@@ -1,15 +1,13 @@
-import { Item, GildedRose } from "@/gilded-rose";
+import { Item, updateItems } from "@/gilded-rose";
 
 describe("Gilded Rose", () => {
   it("should foo", () => {
-    const gildedRose = new GildedRose([new Item("foo", 0, 0)]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([new Item("foo", 0, 0)]);
     expect(items[0].name).toBe("foo");
   });
 
   it("should decrease both values by one at the end of a day", () => {
-    const gildedRose = new GildedRose([new Item("foo", 2, 2)]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([new Item("foo", 2, 2)]);
     expect(items[0].sellIn).toBe(1);
     expect(items[0].quality).toBe(1);
   });
@@ -17,8 +15,7 @@ describe("Gilded Rose", () => {
   it("Once the sell by date has passed, Quality degrades twice as fast", () => {
     const itemA = new Item("foo", 5, 10);
     const itemB = new Item("foo", -1, 10);
-    const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([{ ...itemA }, { ...itemB }]);
     const qualityDecreaseA = itemA.quality - items[0].quality;
     const qualityDecreaseB = itemB.quality - items[1].quality;
     console.log(qualityDecreaseB);
@@ -28,8 +25,7 @@ describe("Gilded Rose", () => {
   it('"Conjured" items degrade in Quality twice as fast as normal items', () => {
     const itemA = new Item("foo", 5, 10);
     const itemB = new Item("Conjured foo", 5, 10);
-    const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([{ ...itemA }, { ...itemB }]);
     const qualityDecreaseA = itemA.quality - items[0].quality;
     const qualityDecreaseB = itemB.quality - items[1].quality;
     expect(qualityDecreaseB).toBe(2 * qualityDecreaseA);
@@ -38,30 +34,24 @@ describe("Gilded Rose", () => {
   it('expired "Conjured" items degrade in Quality 4x as fast as normal items', () => {
     const itemA = new Item("foo", 5, 10);
     const itemB = new Item("Conjured foo", -1, 10);
-    const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([{ ...itemA }, { ...itemB }]);
     const qualityDecreaseA = itemA.quality - items[0].quality;
     const qualityDecreaseB = itemB.quality - items[1].quality;
     expect(qualityDecreaseB).toBe(4 * qualityDecreaseA);
   });
 
   it("The Quality of an item is never negative", () => {
-    const gildedRose = new GildedRose([new Item("foo", 0, 0)]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([new Item("foo", 0, 0)]);
     expect(items[0].quality).toBeGreaterThanOrEqual(0);
   });
 
   it('"Aged Brie" actually increases in Quality the older it gets', () => {
-    const gildedRose = new GildedRose([new Item("Aged Brie", 0, 1)]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].quality).toBeGreaterThanOrEqual(2);
+    const items = updateItems([new Item("Aged Brie", 0, 1)]);
+    expect(items[0].quality).toBe(2);
   });
   // - The Quality of an item is never more than 50
   it('"Sulfuras", being a legendary item, never has to be sold or decreases in Quality', () => {
-    const gildedRose = new GildedRose([
-      new Item("Sulfuras, Hand of Ragnaros", 20, 80),
-    ]);
-    const items = gildedRose.updateQuality();
+    const items = updateItems([new Item("Sulfuras, Hand of Ragnaros", 20, 80)]);
     expect(items[0].quality).toBe(80);
     expect(items[0].sellIn).toBe(20);
   });
