@@ -1,12 +1,15 @@
+type Attribute = "Conjured" | "Legendary" | "Brie" | "Backstage";
 export class Item {
   name: string;
   sellIn: number;
   quality: number;
+  attributes: Array<Attribute>;
 
-  constructor(name, sellIn, quality) {
+  constructor(name, sellIn, quality, attributes) {
     this.name = name;
     this.sellIn = sellIn;
     this.quality = quality;
+    this.attributes = attributes;
   }
 }
 
