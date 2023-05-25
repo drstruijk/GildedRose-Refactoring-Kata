@@ -52,9 +52,9 @@ describe("Gilded Rose", () => {
   });
 
   it('"Aged Brie" actually increases in Quality the older it gets', () => {
-    const gildedRose = new GildedRose([new Item("Aged Brie", 0, 0)]);
+    const gildedRose = new GildedRose([new Item("Aged Brie", 0, 1)]);
     const items = gildedRose.updateQuality();
-    expect(items[0].quality).toBeGreaterThanOrEqual(1);
+    expect(items[0].quality).toBeGreaterThanOrEqual(2);
   });
   // - The Quality of an item is never more than 50
   it('"Sulfuras", being a legendary item, never has to be sold or decreases in Quality', () => {
