@@ -27,9 +27,7 @@ export class GildedRose {
 
     if (item.name == "Aged Brie") {
       changeInQuality += 1;
-    }
-
-    if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+    } else if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
       changeInQuality += 1;
       if (item.sellIn < 11) {
         changeInQuality += 1;
