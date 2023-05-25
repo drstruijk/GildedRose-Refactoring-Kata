@@ -60,9 +60,7 @@ export class GildedRose {
           changeInQuality += -item.quality;
         } else {
           if (item.quality > 0) {
-            if (item.name != "Sulfuras, Hand of Ragnaros") {
-              changeInQuality += -1;
-            }
+            changeInQuality += -1;
           }
         }
       }
@@ -70,6 +68,10 @@ export class GildedRose {
 
     if (item.name.startsWith("Conjured") && changeInQuality < 0) {
       changeInQuality *= 2;
+    }
+
+    if (item.name == "Sulfuras, Hand of Ragnaros") {
+      changeInQuality = 0;
     }
 
     item.quality += changeInQuality;
