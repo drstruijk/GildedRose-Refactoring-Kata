@@ -16,11 +16,12 @@ describe("Gilded Rose", () => {
 
   it("Once the sell by date has passed, Quality degrades twice as fast", () => {
     const itemA = new Item("foo", 5, 10);
-    const itemB = new Item("foo", 0, 10);
+    const itemB = new Item("foo", -1, 10);
     const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
     const items = gildedRose.updateQuality();
     const qualityDecreaseA = itemA.quality - items[0].quality;
     const qualityDecreaseB = itemB.quality - items[1].quality;
+    console.log(qualityDecreaseB);
     expect(qualityDecreaseB).toBe(2 * qualityDecreaseA);
   });
 
@@ -32,6 +33,16 @@ describe("Gilded Rose", () => {
     const qualityDecreaseA = itemA.quality - items[0].quality;
     const qualityDecreaseB = itemB.quality - items[1].quality;
     expect(qualityDecreaseB).toBe(2 * qualityDecreaseA);
+  });
+
+  it('expired "Conjured" items degrade in Quality 4x as fast as normal items', () => {
+    const itemA = new Item("foo", 5, 10);
+    const itemB = new Item("Conjured foo", -1, 10);
+    const gildedRose = new GildedRose([{ ...itemA }, { ...itemB }]);
+    const items = gildedRose.updateQuality();
+    const qualityDecreaseA = itemA.quality - items[0].quality;
+    const qualityDecreaseB = itemB.quality - items[1].quality;
+    expect(qualityDecreaseB).toBe(4 * qualityDecreaseA);
   });
 
   it("The Quality of an item is never negative", () => {
